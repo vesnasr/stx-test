@@ -58,8 +58,6 @@ export default class ShowSeller extends Vue {
   @Prop() sellerKey!: any;
 
   // DATA
-  //public alertMessage: string = "Please complete all data!";
-  //public showAlert: boolean = false;
 
   //public allSelectedSellersData: any = this.alreadySelected;
 
@@ -67,6 +65,7 @@ export default class ShowSeller extends Vue {
 
   public selectedId = this.alreadySelected[this.sellerKey];
   public percentage = this.alreadySelected[this.sellerKey].percentage;
+
   // COMPUTED
   @Validations()
   get validations() {
@@ -90,6 +89,16 @@ export default class ShowSeller extends Vue {
   public created() {
     this.getSellers();
   }
+
+  public getSellers() {
+    fetch('/api/seller')
+      .then(res => res.json())
+      .then(json => {
+          this.sellers = json;
+        }
+      )
+  }
+
   public sellerSelected(value: any) {
     console.log(value);
   }
@@ -101,14 +110,7 @@ export default class ShowSeller extends Vue {
     console.log("Bus works");
   }
 
-  public getSellers() {
-    fetch('/api/seller')
-      .then(res => res.json())
-      .then(json => {
-          this.sellers = json;
-        }
-      )
-  }
+
 
   // this.$v.$touch();
   // if (this.$v.$invalid) {

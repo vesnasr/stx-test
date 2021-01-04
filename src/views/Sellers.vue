@@ -23,7 +23,7 @@
         <b-col> </b-col>
         <b-col>
           <b-button variant="success" @click="addSellerRow">+ Seller</b-button>
-          <b-button variant="success" @click="emitSaveSellersEvent">Save</b-button>
+          <b-button variant="success" @click="emitSaveSellers">Save</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -54,27 +54,27 @@ import { Validations } from "vuelidate-property-decorators";
 })
 export default class Sellers extends Vue {
   // DATA
-  public alertMessage: string = "Please complete all data!";
-  public showAlert: boolean = false;
+  //public alertMessage: string = "Please complete all data!";
+  //public showAlert: boolean = false;
 
   public sellersData: any[] = [{ id: 0, name: "", percentage: 0.00 }];
 
-  public sellers: any[] = [
-    { id: 1, name: "Seller A" },
-    { id: 2, name: "Seller B" },
-    { id: 3, name: "Seller C" }
-  ];
+  // public sellers: any[] = [
+  //   { id: 1, name: "Seller A" },
+  //   { id: 2, name: "Seller B" },
+  //   { id: 3, name: "Seller C" }
+  // ];
 
   // COMPUTED
   @Validations()
   get validations() {
-    return {
-      sellersData: {
-        id: { required },
-        name: { required },
-        percentage: { required }
-      }
-    };
+    // return {
+    //   sellersData: {
+    //     id: { required },
+    //     name: { required },
+    //     percentage: { required }
+    //   }
+    // };
   }
 
   //METHODS
@@ -87,7 +87,7 @@ export default class Sellers extends Vue {
     console.log("Add Row");
   }
 
-  public emitSaveSellersEvent() {
+  public emitSaveSellers() {
     console.log('save clicked');
     EventBus.$emit('showSellersEvent');
   }

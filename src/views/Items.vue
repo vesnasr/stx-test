@@ -1,10 +1,5 @@
 <template>
   <div class="order">
-    <!--<div v-if="showAlert">
-      <b-alert variant="warning"  show dismissable>
-        {{ alertMessage }}</b-alert
-      >
-    </div>-->
     <b-container class="bv-example-row">
       <b-row>
         <b-col>
@@ -14,7 +9,12 @@
       <b-row>
         <b-col>
           <div>
-            <generic-item></generic-item>
+            <generic-item
+              v-for="(item, index) in itemsData"
+              :key="index"
+              :alreadySelected="itemsData"
+              :itemKey="index"
+            />
           </div>
           <div>
             <special-item></special-item>
@@ -63,12 +63,14 @@
       </b-row>-->
       <b-row>
         <b-col> </b-col>
-        <b-col> </b-col>
         <b-col>
           <b-button variant="success" @click="addGeneric">+ Generic</b-button>
         </b-col>
         <b-col>
           <b-button variant="success" @click="addSpecial">+ Special</b-button>
+        </b-col>
+        <b-col>
+          <b-button variant="success" @click="emitSaveItems">Save</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -88,6 +90,7 @@ import SpecialItem from "@/views/SpecialItem.vue";
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
 import { Validations } from "vuelidate-property-decorators";
+import EventBus from "@/event-bus";
 
 @Component({
   components: {
@@ -99,40 +102,23 @@ import { Validations } from "vuelidate-property-decorators";
 })
 export default class Items extends Vue {
   // DATA
-  // public orderData: any = {
-  //   date: "",
-  //   client: {
-  //     id: 0,
-  //     name: ""
-  //   },
-  //   contact: {
-  //     id: 0,
-  //     name: ""
-  //   }
-  // };
-  // public clients: any[] = [
-  //   { id: 1, name: "Client A" },
-  //   { id: 2, name: "Client B" }
-  // ];
-  //
-  // public contactOptions: any[] = [];
-  //
-  // public contactsClientA: any[] = [
-  //   { id: 1, name: "Contact A1" },
-  //   { id: 2, name: "Contact A2" }
-  // ];
-  // public contactsClientB: any[] = [
-  //   { id: 3, name: "Contact B1" },
-  //   { id: 4, name: "Contact B2" }
-  // ];
-  //
-  // public showCurrentDate: any = new Date();
+  public itemsData: any[] = [
+    {
+      id: 0,
+      type: "",
+      productName: "",
+      price: 0.0,
+      amount: 0,
+      delivery: "",
+      comment: ""
+    }
+  ];
 
   // COMPUTED
-  // @Validations()
-  // get validations() {
+  //@Validations()
+  //get validations() {
   //   return {
-  //     orderData: {
+  //     itemsData: {
   //       date: { required },
   //       client: {
   //         id: { required },
@@ -147,7 +133,35 @@ export default class Items extends Vue {
   // }
 
   //METHODS
+  public addGeneric() {
+    this.itemsData.push({
+      id: 0,
+      type: "g",
+      productName: "",
+      price: 0.0,
+      amount: 0,
+      delivery: "",
+      comment: ""
+    });
+    console.log("Add Generic Row");
+  }
+  public addSpecial() {
+    this.itemsData.push({
+      id: 0,
+      type: "s",
+      productName: "",
+      price: 0.0,
+      amount: 0,
+      delivery: "",
+      comment: ""
+    });
+    console.log("Add Special Row");
+  }
 
+  public emitSaveItems() {
+    console.log("save clicked");
+    //EventBus.$emit('showItemsEvent');
+  }
   //   public clientSelected(value: any) {
   //     console.log(value);
   //     console.log(this.orderData);

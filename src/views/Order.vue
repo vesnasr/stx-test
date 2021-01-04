@@ -1,10 +1,5 @@
 <template>
   <div class="order">
-    <!--<div v-if="showAlert">
-      <b-alert variant="warning"  show dismissable>
-        {{ alertMessage }}</b-alert
-      >
-    </div>-->
     <b-container class="bv-example-row">
       <b-row>
         <b-col>
@@ -88,8 +83,7 @@ import { Validations } from "vuelidate-property-decorators";
 })
 export default class Order extends Vue {
   // DATA
-  public alertMessage: string = "Please complete all data!";
-  public showAlert: boolean = false;
+  //public showAlert: boolean = false;
 
   public orderData: any = {
     id: 0,
@@ -108,7 +102,7 @@ export default class Order extends Vue {
   public clients: any[] = [];
 
   public contactOptions: any[] = [];
-
+  //---now done with API calls simulation
   // public contactsClientA: any[] = [
   //   { id: 1, name: "Contact A1" },
   //   { id: 2, name: "Contact A2" }
@@ -159,31 +153,10 @@ export default class Order extends Vue {
       });
   }
 
-  public postOrder() {
-    let processing: boolean = true;
-    const data = this.orderData;
-    fetch("/api/order", {
-      method: "post",
-      body: JSON.stringify(JSON.stringify(data))
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          this.orderData.id = data.id;
-          alert(JSON.stringify("Order with id: " + data.id + " saved"));
-        } else {
-          alert(JSON.stringify("Error: " + data.message));
-        }
-        processing = false;
-      });
-  }
   public clientSelected(value: any) {
     console.log(value);
     console.log(this.orderData);
     this.orderData.contact = [];
-    //this.contactOptions = [];
-    //this.orderData.client.name = value.name;
-    //this.orderData.client.id = value.id;
 
     this.getContacts(this.orderData.client.id);
 
@@ -196,7 +169,7 @@ export default class Order extends Vue {
   }
 
   public checkOrderData() {
-    console.log("Check order data");
+    //data verification:
     this.$v.$touch();
     if (this.$v.$invalid) {
       alert("Please complete all data!");
@@ -206,13 +179,33 @@ export default class Order extends Vue {
     this.$store.dispatch("setOrderDataAction", this.orderData);
     let ordData: any = this.$store.getters.getOrderDataAction;
     console.log(JSON.stringify(ordData));
+
+    //Saving data:
     this.postOrder();
     //Order Details data are completed, checked and saved!
+  }
+  public postOrder() {
+    let processing: boolean = true;
+    const postData = this.orderData;
+    fetch("/api/order", {
+      method: "post",
+      body: JSON.stringify(JSON.stringify(postData))
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          this.orderData.id = data.id;
+          alert(JSON.stringify("Order with id: " + data.id + " is saved."));
+        } else {
+          alert(JSON.stringify("Error: " + data.message));
+        }
+        processing = false;
+      });
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // IMPORT
 @import "vue-select/src/scss/vue-select.scss";
 
