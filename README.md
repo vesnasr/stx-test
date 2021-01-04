@@ -14,6 +14,9 @@ Third part is Items. I made adding of Generic Items with +Generic button. Adding
 
 Error messages are done. Complete Order object is kept in Store and can be used in all other components, if needed…
 
+You can see the project on:
+https://stx-assignment-vesnasr.netlify.app/
+
 ## Project setup
 ```
 npm install
