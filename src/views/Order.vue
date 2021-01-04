@@ -1,10 +1,5 @@
 <template>
   <div class="order">
-    <!--<div v-if="showAlert">
-      <b-alert variant="warning"  show dismissable>
-        {{ alertMessage }}</b-alert
-      >
-    </div>-->
     <b-container class="bv-example-row">
       <b-row>
         <b-col>
@@ -88,8 +83,6 @@ import { Validations } from "vuelidate-property-decorators";
 })
 export default class Order extends Vue {
   // DATA
-  public alertMessage: str = "Please complete all data!";
-  public showAlert: bool = false;
   public sellers: any[] = [];
   public items: any[] = [];
 
@@ -110,15 +103,6 @@ export default class Order extends Vue {
   public clients: any[] = [];
 
   public contactOptions: any[] = [];
-
-  // public contactsClientA: any[] = [
-  //   { id: 1, name: "Contact A1" },
-  //   { id: 2, name: "Contact A2" }
-  // ];
-  // public contactsClientB: any[] = [
-  //   { id: 3, name: "Contact B1" },
-  //   { id: 4, name: "Contact B2" }
-  // ];
 
   public showCurrentDate: any = new Date();
 
@@ -184,14 +168,10 @@ export default class Order extends Vue {
     console.log(value);
     console.log(this.orderData);
     this.orderData.contact = [];
-    //this.contactOptions = [];
-    //this.orderData.client.name = value.name;
-    //this.orderData.client.id = value.id;
 
     this.getContacts(this.orderData.client.id);
-
-    //console.log(this.contactOptions);
   }
+
   public contactSelected(value: any) {
     console.log(value);
     //this.orderData.contact.id = value.id;
@@ -199,7 +179,7 @@ export default class Order extends Vue {
   }
 
   public checkOrderData() {
-    console.log("Check order data");
+    //data verification:
     this.$v.$touch();
     if (this.$v.$invalid) {
       alert("Please complete all data!");
@@ -209,13 +189,15 @@ export default class Order extends Vue {
     this.$store.dispatch("setOrderDataAction", this.orderData);
     let ordData: any = this.$store.getters.getOrderDataAction;
     console.log(JSON.stringify(ordData));
+
+    //Saving data:
     this.postOrder();
     //Order Details data are completed, checked and saved!
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 // IMPORT
 @import "vue-select/src/scss/vue-select.scss";
 

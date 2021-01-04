@@ -9,17 +9,17 @@
       <b-row>
         <b-col>
           <show-seller
-              v-for="(seller, index) in alreadySelectedSellers"
-              :key="index"
-              :sellerKey="index"
-              :alreadySelectedSellers="alreadySelectedSellers"
-              :allSellers="allSellers"
+            v-for="(seller, index) in alreadySelectedSellers"
+            :key="index"
+            :sellerKey="index"
+            :alreadySelectedSellers="alreadySelectedSellers"
+            :allSellers="allSellers"
           />
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <hr class="my-4"/>
+          <hr class="my-4" />
         </b-col>
       </b-row>
       <b-row>
@@ -35,18 +35,18 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {Component} from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 
-import EventBus from '@/event-bus.ts';
+//import EventBus from '@/event-bus.ts';
 
 import ShowSeller from "@/views/ShowSeller.vue";
 
 //for data Validation:
-import {validationMixin} from "vuelidate";
-import {required} from "vuelidate/lib/validators";
-import {Validations} from "vuelidate-property-decorators";
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+import { Validations } from "vuelidate-property-decorators";
 
 @Component({
   components: {
@@ -57,8 +57,6 @@ import {Validations} from "vuelidate-property-decorators";
 })
 export default class Sellers extends Vue {
   // DATA
-  public alertMessage: str = "Please complete all data!";
-  public showAlert: bool = false;
   public orderData: any = [];
   public alreadySelectedSellers: any[] = [];
 
@@ -68,9 +66,9 @@ export default class Sellers extends Vue {
   get validations() {
     return {
       sellersData: {
-        id: {required},
-        name: {required},
-        percentage: {required}
+        id: { required },
+        name: { required },
+        percentage: { required }
       }
     };
   }
@@ -82,13 +80,12 @@ export default class Sellers extends Vue {
 
     this.alreadySelectedSellers = this.orderData.sellers;
 
-    fetch('/api/seller')
-        .then(res => res.json())
-        .then(json => {
-              console.log(json);
-              this.allSellers = json;
-           }
-        )
+    fetch("/api/seller")
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.allSellers = json;
+      });
   }
 
   public sellerSelected(value: any) {
@@ -97,34 +94,56 @@ export default class Sellers extends Vue {
 
   public addSellerRow() {
     if (this.alreadySelectedSellers.length < this.allSellers.length) {
-      this.alreadySelectedSellers.push({id: 0, name: "", percentage: 0.00});
+      this.alreadySelectedSellers.push({ id: 0, name: "", percentage: 0.0 });
     } else {
-      alert('Sorry, you already add all the sellers!');
+      alert("Sorry, you already add all the sellers!");
     }
   }
 
   public saveSellers() {
+    //EventBus.$emit('saveSellersEvent');
+
+    if (this.orderData.sellers.length<=0) {
+      alert('You must choose at least one seller!');
+      return;
+    }
+
+    // if (this.orderData.sellers.length>0) {
+    //   if (this.orderData.sellers[this.orderData.sellers.length-1].name === '') {
+    //     alert('You must fill seller name!');
+    //     return;
+    //   }
+    // }
+
     let sum = 0;
     for (const sellerIndex in this.orderData.sellers) {
       sum += parseInt(this.orderData.sellers[sellerIndex].percentage);
     }
-    if (sum ===100) {
+
+    if (sum === 100) {
       const orderId = this.orderData.id;
       if (orderId === 0) {
-        alert('Sorry, you must save order detalis first!');
+        alert("Sorry, you must save order detalis first!");
       } else {
-        fetch('/api/order/'+ orderId + '/seller', { method: 'put', body: JSON.stringify(this.orderData.sellers) })
-            .then(res => res.json())
-            .then(data => {
-              if (data.success ) {
-                alert(JSON.stringify('For order with id: ' + data.id + ' update sellers'))
-              } else {
-                alert(JSON.stringify('Error: ' + data.message))
-              }
-            })
+        fetch("/api/order/" + orderId + "/seller", {
+          method: "put",
+          body: JSON.stringify(this.orderData.sellers)
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              alert(
+                JSON.stringify(
+                  "For order with id: " + data.id + " update sellers"
+                )
+              );
+            } else {
+              alert(JSON.stringify("Error: " + data.message));
+            }
+          });
       }
     } else {
-      alert('Sorry, total percentage must be 100%!');
+      alert("Sorry, total percentage must be 100%!");
     }
   }
 }
@@ -142,11 +161,11 @@ export default class Sellers extends Vue {
     height: 40px;
     background: none;
     background: -webkit-gradient(
-            linear,
-            right top,
-            left top,
-            color-stop(50%, #fff),
-            color-stop(50%, #f9f9f9)
+      linear,
+      right top,
+      left top,
+      color-stop(50%, #fff),
+      color-stop(50%, #f9f9f9)
     );
     background: linear-gradient(to left, #fff 50%, #f9f9f9 50%);
     background-size: 200% 100%;
