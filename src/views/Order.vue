@@ -83,7 +83,10 @@ import { Validations } from "vuelidate-property-decorators";
 })
 export default class Order extends Vue {
   // DATA
-  //public showAlert: boolean = false;
+  public alertMessage: str = "Please complete all data!";
+  public showAlert: bool = false;
+  public sellers: any[] = [];
+  public items: any[] = [];
 
   public orderData: any = {
     id: 0,
@@ -96,13 +99,13 @@ export default class Order extends Vue {
       id: 0,
       name: ""
     },
-    sellers: {},
-    items: {}
+    sellers: this.sellers,
+    items: this.items
   };
   public clients: any[] = [];
 
   public contactOptions: any[] = [];
-  //---now done with API calls simulation
+
   // public contactsClientA: any[] = [
   //   { id: 1, name: "Contact A1" },
   //   { id: 2, name: "Contact A2" }
@@ -135,6 +138,7 @@ export default class Order extends Vue {
   //METHODS
   public created() {
     this.getClients();
+    this.$store.dispatch("setOrderDataAction", this.orderData);
   }
 
   public getClients() {
@@ -153,6 +157,24 @@ export default class Order extends Vue {
       });
   }
 
+  public postOrder() {
+    let processing: boolean = true;
+    const data = this.orderData;
+    fetch("/api/order", {
+      method: "post",
+      body: JSON.stringify(JSON.stringify(data))
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          this.orderData.id = data.id;
+          alert(JSON.stringify("Order with id: " + data.id + " saved"));
+        } else {
+          alert(JSON.stringify("Error: " + data.message));
+        }
+        processing = false;
+      });
+  }
   public clientSelected(value: any) {
     console.log(value);
     console.log(this.orderData);
@@ -183,24 +205,6 @@ export default class Order extends Vue {
     //Saving data:
     this.postOrder();
     //Order Details data are completed, checked and saved!
-  }
-  public postOrder() {
-    let processing: boolean = true;
-    const postData = this.orderData;
-    fetch("/api/order", {
-      method: "post",
-      body: JSON.stringify(JSON.stringify(postData))
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          this.orderData.id = data.id;
-          alert(JSON.stringify("Order with id: " + data.id + " is saved."));
-        } else {
-          alert(JSON.stringify("Error: " + data.message));
-        }
-        processing = false;
-      });
   }
 }
 </script>

@@ -38,39 +38,39 @@ export function makeServer({ environment = 'development' } = {}) {
         const orderId = Math.floor(Math.random() * 10) + 1;
         const args = JSON.parse(request.requestBody);
         return new Response(200, {}, { 'success' : true, 'id': orderId });
-      }, { timing: 2000 })
+      })
       this.put('/order/:orderId', (schema, request) => {
         const orderId = request.params.orderId;
         const args = JSON.parse(request.requestBody);
         return new Response(200, {}, { 'success' : true, 'id': orderId });
-      }, { timing: 2000 })
+      })
       this.put('/order/:orderId/finalize', (schema, request) => {
         const orderId = request.params.orderId;
         const args = JSON.parse(request.requestBody);
         return new Response(200, {}, { 'success' : true, 'id': orderId });
-      }, { timing: 2000 })
+      })
       this.put('/order/:orderId/seller', (schema, request) => {
         const orderId = request.params.orderId;
         const args = JSON.parse(request.requestBody);
         return new Response(200, {}, { 'success' : true, 'id': orderId });
-      }, { timing: 2000 })
+      })
       this.post('/order/:orderId/item', (schema, request) => {
         const orderId = request.params.orderId;
         const args = JSON.parse(request.requestBody);
         return new Response(200, {}, { 'success' : true, 'id': orderId });
-      }, { timing: 2000 })
+      })
       this.put('/order/:orderId/item/:itemId', (schema, request) => {
         const orderId = request.params.orderId;
         const itemId = request.params.itemId;
         const args = JSON.parse(request.requestBody);
         return new Response(200, {}, { 'success' : true, 'id': itemId });
-      }, { timing: 2000 })
+      })
       this.delete('/order/:orderId/item/:itemId', (schema, request) => {
         const orderId = request.params.orderId;
         const itemId = request.params.itemId;
         const args = JSON.parse(request.requestBody);
         return new Response(200, {}, { 'success' : true, 'id': itemId });
-      }, { timing: 2000 })
+      })
     },
   })
 
