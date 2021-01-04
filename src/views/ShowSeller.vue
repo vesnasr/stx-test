@@ -7,13 +7,13 @@
         </b-col>
         <b-col>
           <v-select
-              placeholder="Select seller"
-              id="idSeller"
-              label="name"
-              class="vselectsell"
-              :options="sellers"
-              @input="sellerSelected"
-              v-model="selectedId"
+            placeholder="Select seller"
+            id="idSeller"
+            label="name"
+            class="vselectsell"
+            :options="sellers"
+            @input="sellerSelected"
+            v-model="selectedId"
           ></v-select>
         </b-col>
         <b-col>
@@ -21,13 +21,13 @@
         </b-col>
         <b-col>
           <b-form-input
-              v-model="percentage"
-              type="number"
-              class="vinputsell"
-              min="0.01"
-              max="100"
-              placeholder="%"
-              @change="addPercentage"
+            v-model="percentage"
+            type="number"
+            class="vinputsell"
+            min="0.01"
+            max="100"
+            placeholder="%"
+            @change="addPercentage"
           ></b-form-input>
         </b-col>
       </b-row>
@@ -36,16 +36,16 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import {Component, Prop} from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 
-import EventBus from '@/event-bus.ts';
+//import EventBus from '@/event-bus.ts';
 
 //for data Validation:
-import {validationMixin} from "vuelidate";
-import {required} from "vuelidate/lib/validators";
-import {Validations} from "vuelidate-property-decorators";
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+import { Validations } from "vuelidate-property-decorators";
 
 @Component({
   components: {
@@ -69,13 +69,16 @@ export default class ShowSeller extends Vue {
   @Validations()
   get validations() {
     return {
-      sellersData: {
-        id: {required},
-        name: {required},
-        percentage: {required}
-      }
+      selectId: { required}
     };
   }
+
+  // mounted() {
+  //   const self = this;
+  //   EventBus.$on('saveSellersEvent', function(data: any) {
+  //     self.checkBeforeSave(data);
+  //   });
+  // }
 
   //METHODS
   public created() {
@@ -85,7 +88,10 @@ export default class ShowSeller extends Vue {
     for (const sellerToCheckIndex in this.allSellers) {
       let founded = false;
       for (const oneOfAlreadySelectedIndex in this.alreadySelectedSellers) {
-        if (this.allSellers[sellerToCheckIndex].id == this.alreadySelectedSellers[oneOfAlreadySelectedIndex].id) {
+        if (
+          this.allSellers[sellerToCheckIndex].id ==
+          this.alreadySelectedSellers[oneOfAlreadySelectedIndex].id
+        ) {
           founded = true;
         }
       }
@@ -99,11 +105,14 @@ export default class ShowSeller extends Vue {
     console.log(value);
     this.orderData.sellers[this.sellerKey] = value;
     this.$store.dispatch("setOrderDataAction", this.orderData);
+
   }
 
   public addPercentage(value: any) {
-    this.orderData.sellers[this.sellerKey].percentage = value;
-    this.$store.dispatch("setOrderDataAction", this.orderData);
+    if (this.selectedId.id !=0) {
+      this.orderData.sellers[this.sellerKey].percentage = value;
+      this.$store.dispatch("setOrderDataAction", this.orderData);
+    }
   }
 
   public checkSellersData() {
@@ -124,11 +133,11 @@ export default class ShowSeller extends Vue {
     height: 40px;
     background: none;
     background: -webkit-gradient(
-            linear,
-            right top,
-            left top,
-            color-stop(50%, #fff),
-            color-stop(50%, #f9f9f9)
+      linear,
+      right top,
+      left top,
+      color-stop(50%, #fff),
+      color-stop(50%, #f9f9f9)
     );
     background: linear-gradient(to left, #fff 50%, #f9f9f9 50%);
     background-size: 200% 100%;

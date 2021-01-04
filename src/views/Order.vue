@@ -83,8 +83,6 @@ import { Validations } from "vuelidate-property-decorators";
 })
 export default class Order extends Vue {
   // DATA
-  public alertMessage: str = "Please complete all data!";
-  public showAlert: bool = false;
   public sellers: any[] = [];
   public items: any[] = [];
 
@@ -105,15 +103,6 @@ export default class Order extends Vue {
   public clients: any[] = [];
 
   public contactOptions: any[] = [];
-
-  // public contactsClientA: any[] = [
-  //   { id: 1, name: "Contact A1" },
-  //   { id: 2, name: "Contact A2" }
-  // ];
-  // public contactsClientB: any[] = [
-  //   { id: 3, name: "Contact B1" },
-  //   { id: 4, name: "Contact B2" }
-  // ];
 
   public showCurrentDate: any = new Date();
 
@@ -181,9 +170,8 @@ export default class Order extends Vue {
     this.orderData.contact = [];
 
     this.getContacts(this.orderData.client.id);
-
-    //console.log(this.contactOptions);
   }
+
   public contactSelected(value: any) {
     console.log(value);
     //this.orderData.contact.id = value.id;

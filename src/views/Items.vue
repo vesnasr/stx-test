@@ -20,47 +20,7 @@
             <special-item></special-item>
           </div>
         </b-col>
-        <!--<b-col>
-          <b-form-input
-            v-model="orderData.date"
-            type="date"
-            placeholder="currentDate"
-          ></b-form-input>
-        </b-col>
-        <b-col> </b-col>-->
       </b-row>
-      <!--<b-row>
-        <b-col>
-          <p>Client:</p>
-        </b-col>
-        <b-col>
-          <v-select
-            placeholder="Select client"
-            id="idClient"
-            label="name"
-            class="vselect"
-            :options="clients"
-            @input="clientSelected"
-          ></v-select>
-        </b-col>
-        <b-col> </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <p>Contact:</p>
-        </b-col>
-        <b-col>
-          <v-select
-            placeholder="Select contact"
-            id="idContact"
-            label="name"
-            class="vselect"
-            :options="contactOptions"
-            @input="contactSelected"
-          ></v-select>
-        </b-col>
-        <b-col> </b-col>
-      </b-row>-->
       <b-row>
         <b-col> </b-col>
         <b-col>
@@ -88,9 +48,10 @@ import SpecialItem from "@/views/SpecialItem.vue";
 
 //for data Validation:
 import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
-import { Validations } from "vuelidate-property-decorators";
-import EventBus from "@/event-bus";
+// import { required } from "vuelidate/lib/validators";
+// import { Validations } from "vuelidate-property-decorators";
+
+//import EventBus from "@/event-bus";
 
 @Component({
   components: {
@@ -106,7 +67,7 @@ export default class Items extends Vue {
     {
       id: 0,
       type: "",
-      productName: "",
+      name: "",
       price: 0.0,
       amount: 0,
       delivery: "",
@@ -137,7 +98,7 @@ export default class Items extends Vue {
     this.itemsData.push({
       id: 0,
       type: "g",
-      productName: "",
+      name: "",
       price: 0.0,
       amount: 0,
       delivery: "",
@@ -146,62 +107,21 @@ export default class Items extends Vue {
     console.log("Add Generic Row");
   }
   public addSpecial() {
-    this.itemsData.push({
-      id: 0,
-      type: "s",
-      productName: "",
-      price: 0.0,
-      amount: 0,
-      delivery: "",
-      comment: ""
-    });
+    // this.itemsData.push({
+    //   id: 0,
+    //   type: "s",
+    //   name: "",
+    //   price: 0.0,
+    //   amount: 0,
+    //   delivery: "",
+    //   comment: ""
+    // });
     console.log("Add Special Row");
   }
 
   public emitSaveItems() {
     console.log("save clicked");
     //EventBus.$emit('showItemsEvent');
-  }
-  //   public clientSelected(value: any) {
-  //     console.log(value);
-  //     console.log(this.orderData);
-  //     this.contactOptions = [];
-  //     this.orderData.client.name = value.name;
-  //     this.orderData.client.id = value.id;
-  //
-  //     if (value.id === 1) {
-  //       this.contactOptions = this.contactsClientA;
-  //     } else if (value.id === 2) {
-  //       this.contactOptions = this.contactsClientB;
-  //     }
-  //     console.log(this.contactOptions);
-  //   }
-  //   public contactSelected(value: any) {
-  //     console.log(value);
-  //     this.orderData.contact.id = value.id;
-  //     this.orderData.contact.name = value.name;
-  //   }
-  //   public getContactOptions() {
-  //     console.log("");
-  //   }
-  //
-  //   public checkOrderData() {
-  //     console.log("Check order data");
-  //     this.$v.$touch();
-  //     if (this.$v.$invalid) {
-  //       alert("Please complete all data!");
-  //       return;
-  //     }
-  //     //this.showAlert = true;
-  //     alert("Order Details data are completed. Go to Save Order Details data...");
-  //   }
-  // }
-  public addGeneric() {
-    console.log("Add generic item");
-  }
-
-  public addSpecial() {
-    console.log("Add special item");
   }
 }
 </script>

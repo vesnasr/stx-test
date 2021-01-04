@@ -120,7 +120,12 @@ export default class GenericItem extends Vue {
       alert("Please complete all data!");
       return;
     }
+    alert()
     ///...save item...
+  }
+  public deleteItem() {
+    console.log("delete");
+    ///...delete item...
   }
 }
 </script>
