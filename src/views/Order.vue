@@ -88,8 +88,10 @@ import { Validations } from "vuelidate-property-decorators";
 })
 export default class Order extends Vue {
   // DATA
-  public alertMessage: string = "Please complete all data!";
-  public showAlert: boolean = false;
+  public alertMessage: str = "Please complete all data!";
+  public showAlert: bool = false;
+  public sellers: any[] = [];
+  public items: any[] = [];
 
   public orderData: any = {
     id: 0,
@@ -102,8 +104,8 @@ export default class Order extends Vue {
       id: 0,
       name: ""
     },
-    sellers: {},
-    items: {}
+    sellers: this.sellers,
+    items: this.items
   };
   public clients: any[] = [];
 
@@ -141,6 +143,7 @@ export default class Order extends Vue {
   //METHODS
   public created() {
     this.getClients();
+    this.$store.dispatch("setOrderDataAction", this.orderData);
   }
 
   public getClients() {
