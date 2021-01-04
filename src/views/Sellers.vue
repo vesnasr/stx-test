@@ -104,17 +104,14 @@ export default class Sellers extends Vue {
   }
 
   public saveSellers() {
-    console.log('save clicked');
     let sum = 0;
     for (const sellerIndex in this.orderData.sellers) {
-      console.log(this.orderData.sellers)
       sum += parseInt(this.orderData.sellers[sellerIndex].percentage);
     }
     if (sum ===100) {
-      console.log(this.orderData)
       const orderId = this.orderData.id;
       if (orderId === 0) {
-        alert('Sorry, you must first save order detalis!');
+        alert('Sorry, you must save order detalis first!');
       } else {
         fetch('/api/order/'+ orderId + '/seller', { method: 'put', body: JSON.stringify(this.orderData.sellers) })
             .then(res => res.json())

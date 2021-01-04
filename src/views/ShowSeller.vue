@@ -81,6 +81,7 @@ export default class ShowSeller extends Vue {
   public created() {
     this.orderData = this.$store.getters.getOrderDataAction;
 
+    // Removes already selected from list
     for (const sellerToCheckIndex in this.allSellers) {
       let founded = false;
       for (const oneOfAlreadySelectedIndex in this.alreadySelectedSellers) {
